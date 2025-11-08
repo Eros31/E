@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T&E Events | Luxury Catering & Event Planning</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons (Added Gift for Kiddy Birthday) --><script type="module">
+        import { createIcons, GraduationCap, Calendar, ChefHat, MapPin, Phone, Mail, Gift, ScrollText } from 'https://cdn.jsdelivr.net/npm/lucide@latest';
+        createIcons({ icons: { GraduationCap, Calendar, ChefHat, MapPin, Phone, Mail, Gift, ScrollText } });
+    </script>
+    <!-- Load EmailJS Library --><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Custom Tailwind Configuration for Gold/White Theme --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'te-gold': '#D4AF37', // Elegant PVD Gold
+                        'te-dark': '#1e293b', // Dark Slate for text
+                        'te-cream': '#fefcf8', // Off-white/Creamy background
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* General styling for the luxurious feel */
+        body {
+            background-color: #fefcf8;
+            color: #1e293b;
+        }
+        /* Custom scroll behavior for navigation */
+        .scroll-mt-24 {
+            scroll-margin-top: 6rem; /* Offset for fixed header */
+        }
+        /* Styling for the menu list items */
+        .menu-list li {
+            position: relative;
+            padding-left: 1.5rem; /* Space for the custom bullet */
+            margin-bottom: 0.5rem;
+            list-style: none; /* Hide default bullets */
+        }
+        .menu-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background-color: #D4AF37; /* Gold dot */
+            border-radius: 50%;
+        }
+
+        /* Typing Animation for Hero Title */
+        .typing {
+            overflow: hidden;
+            border-right: 2px solid #D4AF37;
+            white-space: nowrap;
+            animation: typing 4s steps(32, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #D4AF37; }
+        }
+
+        /* Enhanced Hover Effects */
+        .service-title:hover {
+            color: #fefcf8;
+            transform: scale(1.05);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .service-desc:hover {
+            color: #fefcf8;
+            transition: color 0.3s ease;
+        }
+
+        .menu-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .menu-title::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+
+        .menu-title:hover::after {
+            width: 100%;
+        }
+
+        .menu-title:hover {
+            color: #1e293b;
+            transition: color 0.3s ease;
+        }
+
+        .contact-label:hover {
+            text-shadow: 0 0 10px #D4AF37;
+            transition: text-shadow 0.3s ease;
+        }
+
+        .contact-button:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .nav-link {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: #D4AF37;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="fixed w-full bg-white bg-opacity-95 shadow-md z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
+            
+            <!-- Mobile/Small Screen Header (Logo Left, Button Right) -->
+            <div class="flex w-full md:hidden justify-between items-center">
+                <!-- Logo for Mobile -->
+                <div class="flex items-center">
+                    <img src="logo.jpg" alt="T&E Events Logo" class="h-12">
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="text-te-dark focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+
+            <!-- Desktop Navigation with Links Around Centered Logo (Hidden on mobile) -->
+            <nav class="hidden md:flex w-full justify-center items-center h-16">
+                <div class="flex items-center space-x-8">
+                    <a href="#home" class="text-te-dark hover:text-te-gold transition duration-300 font-medium">Home</a>
+                    <a href="#services" class="text-te-dark hover:text-te-gold transition duration-300 font-medium">Services</a>
+                    <div class="flex items-center mx-4">
+                        <img src="logo.jpg" alt="T&E Events Logo" class="h-14">
+                    </div>
+                    <a href="#menu" class="text-te-dark hover:text-te-gold transition duration-300 font-medium">Menu</a>
+                    <a href="#contact" class="text-te-dark hover:text-te-gold transition duration-300 font-medium">Contact</a>
+                </div>
+            </nav>
+            
+        </div>
+        <!-- Mobile Menu Dropdown (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg border-t border-te-gold/20">
+            <a href="#home" class="block py-3 px-6 text-te-dark hover:bg-te-gold/10 hover:text-te-gold">Home</a>
+            <a href="#services" class="block py-3 px-6 text-te-dark hover:bg-te-gold/10 hover:text-te-gold">Services</a>
+            <a href="#menu" class="block py-3 px-6 text-te-dark hover:bg-te-gold/10 hover:text-te-gold">Menu</a>
+            <a href="#contact" class="block py-3 px-6 text-te-dark hover:bg-te-gold/10 hover:text-te-gold">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Hero Section --><section id="home" class="relative pt-24 h-[80vh] flex items-center justify-center overflow-hidden">
+            <!-- Placeholder for an elegant, white and gold themed background image --><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://placehold.co/1200x800/f8f8f8/D4AF37?text=Luxury+Catering+T%26E');">
+                <div class="absolute inset-0 bg-te-dark/50 backdrop-blur-sm"></div>
+            </div>
+            <div class="relative text-center p-6 max-w-4xl">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 tracking-tighter shadow-2xl">
+                    Crafting <span class="text-te-gold">Unforgettable</span> Experiences
+                </h1>
+                <p class="text-xl md:text-2xl text-te-cream mb-10 font-light">
+                    Exquisite catering and impeccable event planning tailored for your momentous occasions.
+                </p>
+                <a href="#contact" class="inline-block px-10 py-4 text-lg font-semibold text-te-dark bg-te-gold rounded-full shadow-xl hover:bg-yellow-600 transition duration-300 transform hover:scale-105">
+                    Plan Your Event
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. Services Section (Interactive with Gallery Modal) --><section id="services" class="py-16 md:py-24 scroll-mt-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-te-dark mb-2">Our Specializations</h2>
+                    <div class="w-20 h-1 bg-te-gold mx-auto rounded"></div>
+                    <p class="mt-4 text-xl text-gray-600">From intimate gatherings to grand celebrations, we handle every detail with elegance.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                    
+                    <!-- Service 1: Elegant Weddings -->
+                    <div class="service-card relative h-80 overflow-hidden rounded-xl shadow-2xl group hover:scale-[1.03] transition duration-500 cursor-pointer" data-event-type="elegant-weddings">
+                        <!-- Background Image -->
+                        <div class="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105" style="background-image: url('wedding.webp');"></div>
+                        <!-- Content Overlay -->
+                        <div class="absolute inset-0 bg-te-dark/60 group-hover:bg-te-dark/75 transition duration-500 flex flex-col justify-center items-center p-6">
+                            <div data-lucide="graduation-cap" class="w-12 h-12 text-te-gold mx-auto mb-4 transition duration-300 group-hover:scale-110"></div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Elegant Weddings</h3>
+                            <p class="text-te-cream/90 text-center">Bespoke menu design and seamless service for your most romantic day. We ensure perfection from canapés to cake cutting.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 2: Corporate Events -->
+                    <div class="service-card relative h-80 overflow-hidden rounded-xl shadow-2xl group hover:scale-[1.03] transition duration-500 cursor-pointer" data-event-type="corporate-events">
+                        <!-- Background Image -->
+                        <div class="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105" style="background-image: url('corporate.jpg');"></div>
+                        <!-- Content Overlay -->
+                        <div class="absolute inset-0 bg-te-dark/60 group-hover:bg-te-dark/75 transition duration-500 flex flex-col justify-center items-center p-6">
+                            <div data-lucide="calendar" class="w-12 h-12 text-te-gold mx-auto mb-4 transition duration-300 group-hover:scale-110"></div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Corporate Events</h3>
+                            <p class="text-te-cream/90 text-center">Professional catering solutions for galas, product launches, and conferences that impress clients and colleagues.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 3: Intimate Gatherings -->
+                    <div class="service-card relative h-80 overflow-hidden rounded-xl shadow-2xl group hover:scale-[1.03] transition duration-500 cursor-pointer" data-event-type="intimate-gatherings">
+                        <!-- Background Image -->
+                        <div class="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105" style="background-image: url('intimate.jpg');"></div>
+                        <!-- Content Overlay -->
+                        <div class="absolute inset-0 bg-te-dark/60 group-hover:bg-te-dark/75 transition duration-500 flex flex-col justify-center items-center p-6">
+                            <div data-lucide="chef-hat" class="w-12 h-12 text-te-gold mx-auto mb-4 transition duration-300 group-hover:scale-110"></div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Intimate Gatherings</h3>
+                            <p class="text-te-cream/90 text-center">Curated dining experiences for private dinners, anniversaries, and small, exclusive celebrations at home or venue.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 4: Kiddy Birthday Parties (New Service) -->
+                    <div class="service-card relative h-80 overflow-hidden rounded-xl shadow-2xl group hover:scale-[1.03] transition duration-500 cursor-pointer" data-event-type="kiddy-birthdays">
+                        <!-- Background Image -->
+                        <div class="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105" style="background-image: url('kiddy.jpg');"></div>
+                        <!-- Content Overlay -->
+                        <div class="absolute inset-0 bg-te-dark/60 group-hover:bg-te-dark/75 transition duration-500 flex flex-col justify-center items-center p-6">
+                            <div data-lucide="gift" class="w-12 h-12 text-te-gold mx-auto mb-4 transition duration-300 group-hover:scale-110"></div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Kiddy Birthday Parties</h3>
+                            <p class="text-te-cream/90 text-center">Fun, creative, and safe catering options for children's birthday parties, including custom cakes and candy corner.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Sample Menu Section --><section id="menu" class="py-16 md:py-24 bg-te-cream scroll-mt-24">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-te-dark mb-2">Signature Offerings</h2>
+                    <div class="w-20 h-1 bg-te-gold mx-auto rounded"></div>
+                    <p class="mt-4 text-xl text-gray-600">A taste of the culinary excellence and creativity we bring to every plate.</p>
+                </div>
+
+                <!-- Menu Grid --><div class="space-y-8">
+                    <!-- Menu Item 1 --><div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden border border-te-gold/30">
+                        <div class="md:w-1/3 h-48 md:h-auto bg-cover bg-center" style="background-image: url('https://placehold.co/400x300/F0E68C/1e293b?text=Seared+Scallops');"></div>
+                        <div class="p-6 md:w-2/3">
+                            <h3 class="text-2xl font-bold text-te-gold mb-2">Seared Scallops & Saffron Risotto</h3>
+                            <p class="text-gray-600 mb-4">Pan-seared jumbo scallops served atop creamy saffron risotto, finished with a hint of lemon zest and microgreens.</p>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 2 --><div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden border border-te-gold/30">
+                        <div class="md:w-1/3 h-48 md:h-auto bg-cover bg-center" style="background-image: url('https://placehold.co/400x300/F0E68C/1e293b?text=Beef+Tenderloin');"></div>
+                        <div class="p-6 md:w-2/3">
+                            <h3 class="text-2xl font-bold text-te-gold mb-2">Prime Beef Tenderloin Medallions</h3>
+                            <p class="text-gray-600 mb-4">Aged beef tenderloin, lightly seasoned and grilled to perfection, accompanied by a rich red wine reduction and seasonal root vegetables.</p>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 3 --><div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden border border-te-gold/30">
+                        <div class="md:w-1/3 h-48 md:h-auto bg-cover bg-center" style="background-image: url('https://placehold.co/400x300/F0E68C/1e293b?text=Gold+Dessert');"></div>
+                        <div class="p-6 md:w-2/3">
+                            <h3 class="text-2xl font-bold text-te-gold mb-2">White Chocolate & Raspberry Mousse</h3>
+                            <p class="text-gray-600 mb-4">Silky white chocolate mousse layered with fresh raspberries and a hint of gold flake garnish, a light and luxurious finish.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <p class="text-lg text-gray-700">View our full range of customizable options.</p>
+                    <button id="view-full-menu-button" class="mt-4 px-8 py-3 font-semibold text-white bg-te-dark rounded-full shadow-lg hover:bg-te-gold hover:text-te-dark transition duration-300 flex items-center justify-center mx-auto">
+                        <div data-lucide="scroll-text" class="w-5 h-5 mr-2"></div>
+                        Request Full Menu
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Contact Section --><section id="contact" class="py-16 md:py-24 scroll-mt-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-te-dark mb-2">Let's Plan Your Event</h2>
+                    <div class="w-20 h-1 bg-te-gold mx-auto rounded"></div>
+                    <p class="mt-4 text-xl text-gray-600">Contact us today to discuss your vision and receive a personalized quote.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Contact Form --><div class="bg-te-cream p-8 rounded-xl shadow-2xl border-t-4 border-te-gold">
+                        <h3 class="text-2xl font-bold text-te-dark mb-6">Send Us a Message</h3>
+                        <form id="contact-form" onsubmit="handleFormSubmission(event)">
+                            <div class="mb-4">
+                                <input type="text" placeholder="Your Name" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-te-gold focus:border-te-gold transition duration-200">
+                            </div>
+                            <div class="mb-4">
+                                <input type="email" placeholder="Your Email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-te-gold focus:border-te-gold transition duration-200">
+                            </div>
+                            <div class="mb-4">
+                                <input type="tel" placeholder="Phone Number (Optional)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-te-gold focus:border-te-gold transition duration-200">
+                            </div>
+                            <div class="mb-4">
+                                <textarea placeholder="Tell us about your event (Date, Location, Guests)" rows="5" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-te-gold focus:border-te-gold transition duration-200"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 mt-2 text-lg font-semibold text-te-dark bg-te-gold rounded-lg shadow-xl hover:bg-yellow-600 transition duration-300 transform hover:scale-[1.01]">
+                                Submit Inquiry
+                            </button>
+                        </form>
+                        <div id="form-message" class="mt-4 text-center text-te-dark font-medium hidden"></div>
+                    </div>
+
+                    <!-- Contact Info & Details --><div class="space-y-8 p-8 bg-white rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-te-dark mb-4 border-b pb-2 border-te-gold/50">Our Details</h3>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div data-lucide="phone" class="w-6 h-6 text-te-gold mt-1 flex-shrink-0"></div>
+                            <div>
+                                <h4 class="font-semibold text-te-dark">Phone</h4>
+                                <p class="text-gray-600">+63 916-314-43329 | +63 927-122-6932</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div data-lucide="mail" class="w-6 h-6 text-te-gold mt-1 flex-shrink-0"></div>
+                            <div>
+                                <h4 class="font-semibold text-te-dark">Email</h4>
+                                <p class="text-gray-600">tande.events05@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div data-lucide="map-pin" class="w-6 h-6 text-te-gold mt-1 flex-shrink-0"></div>
+                            <div>
+                                <h4 class="font-semibold text-te-dark">Address</h4>
+                                <p class="text-gray-600">Las Piñas, Metro Manila, Philippines</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-te-gold/50">
+                            <h4 class="font-semibold text-te-dark mb-3">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="https://www.facebook.com/profile.php?id=61582424669268" class="text-te-dark hover:text-te-gold transition duration-300">
+                                    <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M14 11h2.5L16 8h-2.5V6c0-.528.472-1 1-1h1.5V3H14c-2.761 0-5 2.239-5 5v3H6v3h3v8h3v-8h3l.5-3z"></path></svg>
+                                </a>
+                                <a href="" class="text-te-dark hover:text-te-gold transition duration-300">
+                                    <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm10.7 2.3c-.7 0-1.2.6-1.2 1.2s.6 1.2 1.2 1.2 1.2-.6 1.2-1.2-.6-1.2-1.2-1.2zM12 7c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.2c-1.8 0-3.2-1.4-3.2-3.2s1.4-3.2 3.2-3.2 3.2 1.4 3.2 3.2-1.4 3.2-3.2 3.2z"></path></svg>
+                                </a>
+                                <a href="" class="text-te-dark hover:text-te-gold transition duration-300">
+                                    <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M22.46 6.014c-.812.362-1.685.607-2.593.722.936-.56 1.657-1.442 1.996-2.5a4.34 4.34 0 00-2.812-1.077c-.77-.822-1.865-1.335-3.078-1.335-2.327 0-4.218 1.89-4.218 4.218 0 .33.037.653.11.963C8.077 8.356 4.61 6.46 2.31 3.597.94 5.925 1.57 8.65 3.337 9.87c-.752-.023-1.458-.23-2.07-.57v.053c0 2.04 1.45 3.737 3.378 4.12-.352.096-.723.148-1.107.148-.27 0-.532-.027-.784-.076 1.373 1.708 3.42 2.95 5.753 2.984-2.185 1.71-4.945 2.73-7.942 2.73-.518 0-1.03-.03-1.53-.09 2.82 1.815 6.16 2.877 9.772 2.877 11.72 0 18.15-9.71 18.15-18.15 0-.276-.006-.55-.018-.823.83-1.12 1.55-2.39 2.12-3.72z"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Image Gallery Modal (Lightbox) -->
+    <div id="image-modal" class="fixed inset-0 bg-te-dark/95 hidden items-center justify-center z-50 p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-xl max-w-5xl w-full max-h-[95vh] overflow-y-auto p-6 md:p-10 relative shadow-2xl">
+            <button id="close-image-modal" class="absolute top-4 right-4 text-te-dark hover:text-te-gold transition duration-300 p-2 rounded-full bg-white shadow-lg">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 id="modal-title" class="text-3xl md:text-4xl font-extrabold text-te-dark mb-6 border-b pb-2 border-te-gold"></h3>
+            <div id="modal-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Images will be dynamically injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Menu Modal (New Feature) -->
+    <div id="full-menu-modal" class="fixed inset-0 bg-te-dark/95 hidden items-center justify-center z-50 p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-xl max-w-3xl w-full max-h-[95vh] overflow-y-auto p-6 md:p-10 relative shadow-2xl">
+            <button id="close-menu-modal" class="absolute top-4 right-4 text-te-dark hover:text-te-gold transition duration-300 p-2 rounded-full bg-white shadow-lg">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-4xl font-extrabold text-te-dark text-center mb-2">The <span class="text-te-gold">Complete</span> Menu</h3>
+            <p class="text-center text-gray-600 mb-8">A customizable list of our exquisite culinary offerings.</p>
+            
+            <div id="full-menu-content" class="space-y-10">
+                <!-- Content will be injected by JavaScript -->
+            </div>
+
+            <div class="text-center mt-10 pt-6 border-t border-te-gold/50">
+                <p class="text-xl text-te-dark mb-4 font-medium">Ready to discuss your custom menu?</p>
+                <a href="#contact" class="inline-block px-8 py-3 font-semibold text-white bg-te-dark rounded-full shadow-lg hover:bg-te-gold hover:text-te-dark transition duration-300" onclick="hideFullMenuModal()">
+                    Contact Our Planner
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer --><footer class="bg-te-dark py-8 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-te-cream text-lg mb-2">
+                &copy; <span id="current-year"></span> E&T Events | Catering & Event Planning
+            </p>
+            <p class="text-te-gold text-sm">
+                Where extraordinary flavor meets impeccable service.
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript for Interactivity and Gallery/Menu Logic --><script>
+        // Initialize EmailJS
+        (function(){
+            emailjs.init('6jntY5ImYe0jcs_Nc'); // Replace with your EmailJS public key
+        })();
+
+        // --- DATA DEFINITION ---
+        const eventPhotos = {
+            'elegant-weddings': {
+                title: 'Elegant Wedding Galleries',
+                photos: [
+                    { url: 'https://placehold.co/800x600/D4AF37/1e293b?text=Grand+Wedding+Reception', alt: 'Grand Wedding Reception' },
+                    { url: 'https://placehold.co/800x600/D4AF37/1e293b?text=Wedding+Dinner+Table', alt: 'Wedding Dinner Table Setting' },
+                    { url: 'https://placehold.co/800x600/D4AF37/1e293b?text=Bride+and+Groom+Toast', alt: 'Bride and Groom Toast' },
+                    { url: 'https://placehold.co/800x600/D4AF37/1e293b?text=Custom+Wedding+Cake', alt: 'Custom Wedding Cake' },
+                ]
+            },
+            'corporate-events': {
+                title: 'Corporate Event Galleries',
+                photos: [
+                    { url: 'https://placehold.co/800x600/1e3a8a/fefcf8?text=Gala+Dinner+Setup', alt: 'Corporate Gala Dinner Setup' },
+                    { url: 'https://placehold.co/800x600/1e3a8a/fefcf8?text=Product+Launch+Buffet', alt: 'Product Launch Buffet' },
+                    { url: 'https://placehold.co/800x600/1e3a8a/fefcf8?text=Conference+Break+Snacks', alt: 'Conference Break Snacks' },
+                    { url: 'https://placehold.co/800x600/1e3a8a/fefcf8?text=Professional+Service', alt: 'Professional Waitstaff Service' },
+                ]
+            },
+            'intimate-gatherings': {
+                title: 'Intimate Gathering Galleries',
+                photos: [
+                    { url: 'https://placehold.co/800x600/4F46E5/fefcf8?text=Private+Dinner+Party', alt: 'Elegant Private Dinner' },
+                    { url: 'https://placehold.co/800x600/4F46E5/fefcf8?text=Anniversary+Plates', alt: 'Anniversary Special Plates' },
+                    { url: 'https://placehold.co/800x600/4F46E5/fefcf8?text=Cocktail+Hour+Canapes', alt: 'Cocktail Hour Canapés' },
+                    { url: 'https://placehold.co/800x600/4F46E5/fefcf8?text=Chef+Live+Station', alt: 'Chef Live Cooking Station' },
+                ]
+            },
+            'kiddy-birthdays': {
+                title: 'Kiddy Birthday Parties Galleries',
+                photos: [
+                    { url: 'https://placehold.co/800x600/D97706/fefcf8?text=Themed+Cake+Display', alt: 'Themed Birthday Cake Display' },
+                    { url: 'https://placehold.co/800x600/D97706/fefcf8?text=Kids+Friendly+Buffet', alt: 'Kids Friendly Buffet' },
+                    { url: 'https://placehold.co/800x600/D97706/fefcf8?text=Colorful+Cupcakes', alt: 'Colorful Cupcakes' },
+                    { url: 'https://placehold.co/800x600/D97706/fefcf8?text=Dessert+Table', alt: 'Fun Dessert Table' },
+                ]
+            }
+        };
+
+        const fullMenu = {
+            'Pasta & Noodles': [
+                "Creamy Carbonara", "Cheesy Lasagna", "Cheesy and Meaty Spaghetti", 
+                "Cheesy Baked Macaroni", "Special Palabok", "Special Pancit Bihon Guisado", 
+                "Special Pancit Canton Guisado", "Sotanghon Guisado"
+            ],
+            'Side Dish': [
+                "Bean Sprout Spring Rolls", "Buttered Corn Bits", "Buttered Mixed Vegetables", 
+                "Broccoli and Mushroom", "Chop Suey with Quail Egg", "Lumpiang Hubad", 
+                "Garlic Buttered Marble Potato"
+            ],
+            'Pork': [
+                "Crispy Kare-Kare", "Humba", "Morcon", "Pork Hamonado", 
+                "Roast Pork with Mushroom Sauce", "Ribs with BBQ Sauce", 
+                "Sweet and Sour Pork", "Teriyaki"
+            ],
+            'Beef': [
+                "Beef Brocolli in Oyster Sauce", "Beef Bulgogi", "Beef Caldereta", 
+                "Beef Salpicao", "Beef Staganoff", "Beef with Mushroom and Gravy"
+            ],
+            'Chicken': [
+                "Chicken Buffalo (Wings)", "Chicken Ala King", "Chicken Asado", 
+                "Chicken Cordon Bleu", "Chicken Lemon", "Chicken Tuscani", 
+                "Fried Chicken with Teriyaki Sauce"
+            ],
+            'Fish': [
+                "Fish Fillet with White Sauce", "Fish Fillet with Honey Mustard", 
+                "Fish Fillet with Sweet and Sour Sauce","Fish Fillet with Tofu and Teriyaki Sauce" , 
+                "Fish Fillet with Thousand Island Dressing"
+            ],
+            'Soup': [
+                "Crab and Corn Soup", "Cream of Mushroom Soup", "Egg Drop Soup", "Pumkin Soup"
+            ],
+            'Dessert': [
+                "Buko Pandan", "Buko Salad", "Coffee Jelly", "Fruit Salad", 
+                "Leche Plan", "Macaroni Salad", "Mango Tapioca"
+            ]
+        };
+
+        // --- DOM ELEMENTS ---
+        const imageModal = document.getElementById('image-modal');
+        const closeImageModalButton = document.getElementById('close-image-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalGallery = document.getElementById('modal-gallery');
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        const fullMenuModal = document.getElementById('full-menu-modal');
+        const closeMenuModalButton = document.getElementById('close-menu-modal');
+        const viewFullMenuButton = document.getElementById('view-full-menu-button');
+        const fullMenuContent = document.getElementById('full-menu-content');
+
+
+        // --- UTILITY FUNCTIONS ---
+        // Sets current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Hides the image gallery modal
+        function hideImageModal() {
+            imageModal.classList.add('hidden');
+            imageModal.classList.remove('flex');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Shows the image gallery modal and populates content
+        function showImageModal(eventType) {
+            const data = eventPhotos[eventType];
+            if (!data) return;
+
+            modalTitle.textContent = data.title;
+            modalGallery.innerHTML = ''; 
+
+            // Populate gallery
+            data.photos.forEach(photo => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'overflow-hidden rounded-lg shadow-xl aspect-square';
+                
+                const img = document.createElement('img');
+                img.src = photo.url;
+                img.alt = photo.alt;
+                img.className = 'w-full h-full object-cover transition duration-300 hover:scale-105';
+                
+                imgContainer.appendChild(img);
+                modalGallery.appendChild(imgContainer);
+            });
+
+            // Display modal
+            imageModal.classList.remove('hidden');
+            imageModal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+        
+        // Hides the full menu modal
+        function hideFullMenuModal() {
+            fullMenuModal.classList.add('hidden');
+            fullMenuModal.classList.remove('flex');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Shows the full menu modal and populates content
+        function showFullMenuModal() {
+            fullMenuContent.innerHTML = ''; // Clear previous content
+
+            for (const category in fullMenu) {
+                const categoryData = fullMenu[category];
+
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'bg-te-cream p-5 rounded-lg shadow-md border-b-4 border-te-gold/50';
+
+                const categoryHeader = document.createElement('h4');
+                categoryHeader.className = 'text-2xl font-bold text-te-dark mb-3 uppercase tracking-wider';
+                categoryHeader.textContent = category;
+
+                const list = document.createElement('ul');
+                list.className = 'text-gray-700 menu-list grid grid-cols-1 md:grid-cols-2 gap-x-6';
+                
+                categoryData.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = item;
+                    list.appendChild(listItem);
+                });
+
+                sectionDiv.appendChild(categoryHeader);
+                sectionDiv.appendChild(list);
+                fullMenuContent.appendChild(sectionDiv);
+            }
+
+            // Display modal
+            fullMenuModal.classList.remove('hidden');
+            fullMenuModal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // Form Submission Handler with EmailJS
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            const form = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+
+            // Collect form data
+            const formData = {
+                from_name: form.querySelector('input[type="text"]').value,
+                from_email: form.querySelector('input[type="email"]').value,
+                phone: form.querySelector('input[type="tel"]').value,
+                message: form.querySelector('textarea').value
+            };
+
+            // Send email using EmailJS
+            emailjs.send('service_euoy3e6', 'template_4fug32p', formData)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    formMessage.textContent = 'Thank you for your inquiry! We have received your message and will contact you within 24 hours.';
+                    formMessage.classList.remove('hidden', 'text-red-500');
+                    formMessage.classList.add('text-te-gold');
+                    form.reset();
+                    setTimeout(() => { formMessage.classList.add('hidden'); }, 5000);
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    formMessage.textContent = 'Sorry, there was an error sending your message. Please try again or contact us directly.';
+                    formMessage.classList.remove('hidden', 'text-te-gold');
+                    formMessage.classList.add('text-red-500');
+                    setTimeout(() => { formMessage.classList.add('hidden'); }, 5000);
+                });
+        }
+
+        // --- EVENT LISTENERS ---
+        
+        // 1. Mobile Menu Toggle Logic
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 2. Service Card Click Handler (Image Gallery)
+        serviceCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const eventType = card.getAttribute('data-event-type');
+                if (eventType) {
+                    showImageModal(eventType);
+                }
+            });
+        });
+
+        // 3. Image Modal Close Listeners
+        closeImageModalButton.addEventListener('click', hideImageModal);
+        
+        imageModal.addEventListener('click', (e) => {
+            if (e.target.id === 'image-modal') {
+                hideImageModal();
+            }
+        });
+
+        // 4. Full Menu Button Click Handler (New Feature)
+        viewFullMenuButton.addEventListener('click', showFullMenuModal);
+        
+        // 5. Full Menu Modal Close Listeners
+        closeMenuModalButton.addEventListener('click', hideFullMenuModal);
+        
+        fullMenuModal.addEventListener('click', (e) => {
+            if (e.target.id === 'full-menu-modal') {
+                hideFullMenuModal();
+            }
+        });
+        
+        // Close modals with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!imageModal.classList.contains('hidden')) {
+                    hideImageModal();
+                } else if (!fullMenuModal.classList.contains('hidden')) {
+                    hideFullMenuModal();
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
